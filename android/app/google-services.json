@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "350575624727",
+    "project_id": "zhaimer-e1774",
+    "storage_bucket": "zhaimer-e1774.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:350575624727:android:753198d03b54c1f9871252",
+        "android_client_info": {
+          "package_name": "com.example.test_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUOVON7M5RUrlfpPDP6_8hWQPym74ZcMo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
