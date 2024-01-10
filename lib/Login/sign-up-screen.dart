@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:safewander_app/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:safewander_app/components/textField.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -8,8 +9,10 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+
   void handleContainerTap(String containerName) {
     print('$containerName Container Clicked');
   }
@@ -85,29 +88,10 @@ class _SignupState extends State<Signup> {
                           child: SizedBox(
                             width: 347 * fem,
                             height: 65 * fem,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15 * fem),
-                                  borderSide:
-                                      BorderSide(color: Color(0xff004aad)),
-                                ),
-                                fillColor: Color(0x358a8a8a),
-                                filled: true,
-                                hintText: 'Fullname',
-                                hintStyle: TextStyle(
-                                  fontSize: 16 * ffem,
-                                  height: 1.5 * ffem / fem,
-                                  letterSpacing: 1.12 * fem,
-                                  color: Color.fromARGB(255, 138, 138, 138),
-                                ),
-                              ),
-                              style: TextStyle(
-                                fontSize: 16 * ffem,
-                                height: 1.5 * ffem / fem,
-                                letterSpacing: 1.12 * fem,
-                                color: Color(0xff000000),
-                              ),
+                            child: CustomTextField(
+                              hinttext: " Name ",
+                              mycontroller: name,
+                              isPassword: false,
                             ),
                           ),
                         ),
@@ -165,30 +149,10 @@ class _SignupState extends State<Signup> {
                           child: SizedBox(
                             width: 347 * fem,
                             height: 65 * fem,
-                            child: TextField(
-                              controller: emailController,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15 * fem),
-                                  borderSide:
-                                      BorderSide(color: Color(0xff004aad)),
-                                ),
-                                fillColor: Color(0x358a8a8a),
-                                filled: true,
-                                hintText: 'ex. email@gmail.com',
-                                hintStyle: TextStyle(
-                                  fontSize: 16 * ffem,
-                                  height: 1.5 * ffem / fem,
-                                  letterSpacing: 1.12 * fem,
-                                  color: Color.fromARGB(255, 138, 138, 138),
-                                ),
-                              ),
-                              style: TextStyle(
-                                fontSize: 16 * ffem,
-                                height: 1.5 * ffem / fem,
-                                letterSpacing: 1.12 * fem,
-                                color: Color(0xff000000),
-                              ),
+                            child: CustomTextField(
+                              hinttext: " Enter your email ",
+                              mycontroller: email,
+                              isPassword: false,
                             ),
                           ),
                         ),
@@ -246,31 +210,10 @@ class _SignupState extends State<Signup> {
                           child: SizedBox(
                             width: 347 * fem,
                             height: 65 * fem,
-                            child: TextField(
-                              controller: passwordController,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15 * fem),
-                                  borderSide:
-                                      BorderSide(color: Color(0xff004aad)),
-                                ),
-                                fillColor: Color(0x358a8a8a),
-                                filled: true,
-                                hintText: '********',
-                                hintStyle: TextStyle(
-                                  fontSize: 16 * ffem,
-                                  height: 1.5 * ffem / fem,
-                                  letterSpacing: 1.12 * fem,
-                                  color: Color.fromARGB(255, 138, 138, 138),
-                                ),
-                              ),
-                              style: TextStyle(
-                                fontSize: 16 * ffem,
-                                height: 1.5 * ffem / fem,
-                                letterSpacing: 1.12 * fem,
-                                color: Color(0xff000000),
-                              ),
+                            child: CustomTextField(
+                              hinttext: " Enter your password ",
+                              mycontroller: password,
+                              isPassword: true,
                             ),
                           ),
                         ),
@@ -335,8 +278,8 @@ class _SignupState extends State<Signup> {
                       // ignore: unused_local_variable
                       final credential = await FirebaseAuth.instance
                           .createUserWithEmailAndPassword(
-                        email: emailController.text,
-                        password: passwordController.text,
+                        email: email.text,
+                        password: password.text,
                       );
                       Navigator.of(context).pushReplacementNamed("/Home");
                     } on FirebaseAuthException catch (e) {
