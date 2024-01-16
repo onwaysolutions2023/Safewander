@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:safewander_app/components/textField.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Signin extends StatefulWidget {
   @override
@@ -11,8 +12,30 @@ class _SigninState extends State<Signin> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   bool rememberMe = false;
+
   void handleContainerTap(String containerName) {
     print('$containerName Container Clicked');
+  }
+
+  Future<void> _signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleSignInAccount =
+          await GoogleSignIn().signIn();
+
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+
+        await FirebaseAuth.instance.signInWithCredential(credential);
+        Navigator.of(context).pushReplacementNamed("/Home");
+      }
+    } catch (e) {
+      print('Error signing in with Google: $e');
+    }
   }
 
   @override
@@ -279,32 +302,48 @@ class _SigninState extends State<Signin> {
                   ),
                 ),
               ),
-              Container(
-                margin:
-                    EdgeInsets.fromLTRB(85 * fem, 0 * fem, 81 * fem, 25 * fem),
-                width: double.infinity,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.fromLTRB(
-                          0 * fem, 0 * fem, 64 * fem, 0 * fem),
-                      width: 60 * fem,
-                      height: 60 * fem,
-                      child: Image.asset(
+              GestureDetector(
+                onTap: () {
+                  _signInWithGoogle();
+                },
+                child: Container(
+                  margin:
+                      EdgeInsets.fromLTRB(5 * fem, 20 * fem, 0 * fem, 20 * fem),
+                  width: 347 * fem,
+                  height: 65 * fem,
+                  decoration: BoxDecoration(
+                    color: Color(0xff4285f4),
+                    borderRadius: BorderRadius.circular(15 * fem),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
                         'assets/page-1/images/google-png-1.png',
                         fit: BoxFit.cover,
+                        width: 30 * fem,
+                        height: 30 * fem,
                       ),
-                    ),
-                    Container(
-                      width: 60 * fem,
-                      height: 60 * fem,
-                      child: Image.asset(
-                        'assets/page-1/images/facebookpng-1.png',
-                        fit: BoxFit.cover,
+                      SizedBox(width: 10 * fem),
+                      Text(
+                        'Sign in with Google',
+                        style: TextStyle(
+                          fontSize: 20 * ffem,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.4 * fem,
+                          color: Color(0xffffffff),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               GestureDetector(
